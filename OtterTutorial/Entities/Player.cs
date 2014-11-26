@@ -11,9 +11,10 @@ namespace OtterTutorial.Entities
     {
         public const int WIDTH = 32;
         public const int HEIGHT = 40;
-        public const float DIAGONAL_SPEED = 1.4f;
+        public const float DIAGONAL_SPEED = 2.4f;
 
         public float moveSpeed = 4.0f;
+        public float diagonalSpeed = 4.0f * .7f;
 
         // Our entity's graphic will be a Spritemap
         public Spritemap<string> sprite;
@@ -42,7 +43,7 @@ namespace OtterTutorial.Entities
             sprite.Play("standDown");
 
             // Lastly, we must set our Entity's graphic, otherwise it will not display
-            Graphic = sprite; ;
+            Graphic = sprite;
         }
 
         public override void Update()
@@ -58,6 +59,12 @@ namespace OtterTutorial.Entities
             float newX;
             float newY;
             GameScene checkScene = (GameScene)Scene;
+
+            //jb testing speed changes
+            if (Global.PlayerSession.Controller.L1.Pressed)
+            {
+                moveSpeed = moveSpeed * 1.2f;
+            }
 
             // Check horizontal movement
             if (Global.PlayerSession.Controller.Left.Down)

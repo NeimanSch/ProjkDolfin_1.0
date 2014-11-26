@@ -68,6 +68,8 @@ namespace OtterTutorial.Scenes
             // A good task beyond these tutorials would be ensuring that non-player
             // Entities retain their state upon switching screens
             Add(new Enemy(500, 400));
+            Add(new Enemy(800, 400));
+            Add(new Enemy(500, 800));
         }
 
         private void LoadWorld(string map, string solids)

@@ -14,8 +14,8 @@ namespace OtterTutorial // This can be anything you choose, I opted for my proje
     {
         static void Main(string[] args)
         {
-            Global.TUTORIAL = new Game("OtterTutorial", 640, 480);
-            Global.TUTORIAL.SetWindow(800, 600);
+            Global.TUTORIAL = new Game("OtterTutorial", 1024, 768);
+            Global.TUTORIAL.SetWindow(1024, 768);
 
             Global.PlayerSession = Global.TUTORIAL.AddSession("Player");
             Global.PlayerSession.Controller.Start.AddKey(Key.Return);
