@@ -2,6 +2,7 @@
 
 using OtterTutorial;
 using OtterTutorial.Effects;
+using OtterTutorial.Scenes;
 
 using System;
 
@@ -22,7 +23,7 @@ namespace OtterTutorial.Entities
         public float maxDistance = 350f;
 
         // The image object that is our bullet's graphic
-        public Image image;
+        public virtual Image image { get; set; }
 
         public Sound shootSnd = new Sound(Assets.SND_BULLET_SHOOT);
 
@@ -43,37 +44,87 @@ namespace OtterTutorial.Entities
             // Add a BulletTrail particle as soon as the Bullet enters the Scene
             Global.TUTORIAL.Scene.Add(new BulletTrail(X, Y));
 
-            // Add this line to the Bullet.cs constructor
+            // Add this line to the Bullet.cs class
+            // Set the Bullet hitbox to 16x14
             SetHitbox(16, 14, (int)Global.Type.BULLET);
+
         }
+
 
         public override void Update()
         {
             base.Update();
 
+            GameScene checkScene = (GameScene)Scene;
+            float newX;
+            float newY;
+            int WIDTH = 16;
+            int HEIGHT = 14;
             // Move in the correct direction that the bullet was fired in
             switch (direction)
             {
                 case Global.DIR_UP:
                     {
                         Y -= bulletSpeed;
+                        //jb - udpated to make the bullets collide with solid map objectss
+                        newY = Y + bulletSpeed;
+                        if (checkScene.grid.GetRect(X, newY, X + WIDTH, newY + HEIGHT, false))
+                        {
+                            Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
+                            RemoveSelf();
+                        }
                         break;
                     }
                 case Global.DIR_DOWN:
                     {
                         Y += bulletSpeed;
+                        //jb - udpated to make the bullets collide with solid map objectss
+                        newY = Y - bulletSpeed;
+                        if (newY < 900)
+                        {
+                            //jb - udpated to make the bullets collide with solid map objectss
+                            newY = Y - bulletSpeed;
+                            if (checkScene.grid.GetRect(X, newY, X + WIDTH, newY + HEIGHT, false))
+                            {
+                                Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
+                                RemoveSelf();
+                            }
+                        }
+
                         break;
                     }
                 case Global.DIR_LEFT:
                     {
                         X -= bulletSpeed;
+
+                        //jb - udpated to make the bullets collide with solid map objectss
+                        newX = X + bulletSpeed;
+                        if (checkScene.grid.GetRect(newX, Y, newX + WIDTH, Y + HEIGHT, false))
+                        {
+                            Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
+                            RemoveSelf();
+                        }
                         break;
                     }
                 case Global.DIR_RIGHT:
                     {
                         X += bulletSpeed;
+                        //jb - udpated to make the bullets collide with solid map objectss
+                        newX = X - bulletSpeed;
+                        if (checkScene.grid.GetRect(newX, Y, newX + WIDTH, Y + HEIGHT, false))
+                        {
+                            Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
+                            RemoveSelf();
+                        }
+
                         break;
                     }
+            }
+
+
+            if (distanceTraveled % 60 == 0)
+            {
+                Global.TUTORIAL.Scene.Add(new BulletTrail(X, Y));
             }
 
             // If we have traveled the max distance or more, then
@@ -81,14 +132,14 @@ namespace OtterTutorial.Entities
             distanceTraveled += bulletSpeed;
             if (distanceTraveled >= maxDistance)
             {
-                Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
+                //Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
                 RemoveSelf();
             }
 
             // Add a new BulletTrail particle every 60 pixels traveled
             if (distanceTraveled % 60 == 0)
             {
-                Global.TUTORIAL.Scene.Add(new BulletTrail(X, Y));
+                //Global.TUTORIAL.Scene.Add(new BulletTrail(X, Y));
             }
         }
 

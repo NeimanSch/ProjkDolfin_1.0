@@ -140,9 +140,24 @@ namespace OtterTutorial.Entities
                 }
             }
 
-            if (Global.PlayerSession.Controller.X.Pressed)
+            if (Global.PlayerSession.Controller.R1.Pressed)
             {
                 Global.TUTORIAL.Scene.Add(new Bullet(X, Y, direction));
+            }else if (Global.PlayerSession.Controller.B.Pressed)
+            {
+                Global.TUTORIAL.Scene.Add(new Bullet(X, Y, Global.DIR_RIGHT));
+            }
+            else if (Global.PlayerSession.Controller.X.Pressed)
+            {
+                Global.TUTORIAL.Scene.Add(new Bullet(X, Y, Global.DIR_LEFT));
+            }
+            else if (Global.PlayerSession.Controller.Y.Pressed)
+            {
+                Global.TUTORIAL.Scene.Add(new Bullet(X, Y, Global.DIR_UP));
+            }
+            else if (Global.PlayerSession.Controller.A.Pressed)
+            {
+                Global.TUTORIAL.Scene.Add(new Bullet(X, Y, Global.DIR_DOWN));
             }
 
             // Add particles if the player is moving in any direction
