@@ -1,5 +1,13 @@
 ﻿using Otter;
 
+using OtterTutorial;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using OtterTutorial.Effects;
 using OtterTutorial.Scenes;
 
@@ -30,17 +38,20 @@ namespace OtterTutorial.Entities
             // Create a new spritemap, with the player.png image as our source, 32 pixels wide, and 40 pixels tall
             sprite = new Spritemap<string>(Assets.PLAYER, 32, 40);
 
-            sprite.Add("standLeft", new int[] { 0, 1 }, new float[] { 10f, 10f });
-            sprite.Add("standRight", new int[] { 0, 1 }, new float[] { 10f, 10f });
-            sprite.Add("standDown", new int[] { 3, 4 }, new float[] { 10f, 10f });
-            sprite.Add("standUp", new int[] { 6, 7 }, new float[] { 10f, 10f });
-            sprite.Add("walkLeft", new int[] { 0, 1 }, new float[] { 10f, 10f });
-            sprite.Add("walkRight", new int[] { 0, 1 }, new float[] { 10f, 10f });
-            sprite.Add("walkDown", new int[] { 3, 4 }, new float[] { 10f, 10f });
-            sprite.Add("walkUp", new int[] { 6, 7 }, new float[] { 10f, 10f });
+            sprite.Add("standLeft", new int[] { 4 }, new float[] { 10f, 10f });
+            sprite.Add("standRight", new int[] { 8 }, new float[] { 10f, 10f });
+            sprite.Add("standDown", new int[] { 0 }, new float[] { 10f, 10f });
+            sprite.Add("standUp", new int[] { 12 }, new float[] { 10f, 10f });
+            sprite.Add("walkLeft", new int[] { 4,5,6,7 }, new float[] { 10f, 10f });
+            sprite.Add("walkRight", new int[] { 8, 9, 10, 11 }, new float[] { 10f, 10f });
+            sprite.Add("walkDown", new int[] { 0,1,2,3 }, new float[] { 10f, 10f });
+            sprite.Add("walkUp", new int[] { 12,13,14,15 }, new float[] { 10f, 10f });
 
             // Tell the spritemap which animation to play when the scene starts
             sprite.Play("standDown");
+
+            // Set our Enemy hitbox to be 32 x 40. This goes in our Enemy class
+            SetHitbox(32, 40, (int)Global.Type.PLAYER);
 
             // Lastly, we must set our Entity's graphic, otherwise it will not display
             Graphic = sprite;
@@ -60,6 +71,7 @@ namespace OtterTutorial.Entities
             float newY;
             GameScene checkScene = (GameScene)Scene;
 
+
             //jb testing speed changes
             if (Global.PlayerSession.Controller.L1.Pressed)
             {
@@ -78,8 +90,10 @@ namespace OtterTutorial.Entities
                     xSpeed = -moveSpeed;
                 }
 
+                sprite.Play("walkLeft");
+                sprite.FlippedX = false;
+
                 direction = Global.DIR_LEFT;
-                sprite.FlippedX = true;
             }
             else if (Global.PlayerSession.Controller.Right.Down)
             {
@@ -90,7 +104,9 @@ namespace OtterTutorial.Entities
                 }
 
                 direction = Global.DIR_RIGHT;
+                sprite.Play("walkRight");
                 sprite.FlippedX = false;
+
             }
             else
             {
@@ -105,8 +121,10 @@ namespace OtterTutorial.Entities
                     ySpeed = -moveSpeed;
                 }
 
-                direction = Global.DIR_UP;
+                direction = Global.DIR_UP; 
+                sprite.Play("walkUp");
                 sprite.FlippedX = false;
+
             }
             else if (Global.PlayerSession.Controller.Down.Down)
             {
@@ -117,7 +135,9 @@ namespace OtterTutorial.Entities
                 }
 
                 direction = Global.DIR_DOWN;
+                sprite.Play("walkDown");
                 sprite.FlippedX = false;
+
             }
             else
             {
@@ -166,6 +186,8 @@ namespace OtterTutorial.Entities
             {
                 Global.TUTORIAL.Scene.Add(new Bullet(X, Y, Global.DIR_DOWN));
             }
+
+
 
             // Add particles if the player is moving in any direction
             if (verticalMovement || horizontalMovement)

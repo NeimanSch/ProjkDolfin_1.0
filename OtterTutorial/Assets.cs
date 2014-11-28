@@ -15,7 +15,7 @@ namespace OtterTutorial
         public const string MUSIC_TITLE = "../../Assets/Music/menu.ogg";
         public const string MUSIC_GAME = "../../Assets/Music/game.ogg";
 
-        public const string PLAYER = "../../Assets/Graphics/player.png";
+        public const string PLAYER = "../../Assets/Graphics/player2.png";
         public const string PLAYER_EXPLOSION = "../../Assets/Graphics/explosion.png";
         public const string PLAYER_PARTICLE = "../../Assets/Graphics/particle.png";
         public const string BULLET = "../../Assets/Graphics/bullet.png";

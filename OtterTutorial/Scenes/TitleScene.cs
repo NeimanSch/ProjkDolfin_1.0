@@ -51,7 +51,7 @@ namespace OtterTutorial.Scenes
             enterText.Y = 450;
             this.AddGraphic(enterText);
 
-            titleSong.Play();
+            //titleSong.Play();
         }
 
         public override void Update()

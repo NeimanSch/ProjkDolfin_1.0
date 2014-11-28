@@ -90,6 +90,19 @@ namespace OtterTutorial.Entities
                 }
             }
 
+            // Access the Enemy's Collider to check collision with the player
+            var collp = Collider.Collide(X, Y, (int)Global.Type.PLAYER);
+            if (collp != null)
+            {
+                //jb- temp- remove player and go back to title.
+                Player p = (Player)collp.Entity;
+                Global.camShaker.ShakeCamera();
+                Global.player.RemoveSelf();
+
+                Global.TUTORIAL.RemoveScene();
+                Global.TUTORIAL.AddScene(new TitleScene());
+            }
+
             // If going left, flip the spritesheet
             if (direction < 2)
             {
@@ -186,6 +199,9 @@ namespace OtterTutorial.Entities
                 } 
                 distMoved = 0f;
             }
+
+        
+        
         }
     }
 }

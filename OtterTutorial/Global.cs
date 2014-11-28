@@ -27,7 +27,8 @@ namespace OtterTutorial
         public enum Type
         {
             BULLET,
-            ENEMY
+            ENEMY,
+            PLAYER
         }
 
         // These variables will be used when creating our Tilemap related objects

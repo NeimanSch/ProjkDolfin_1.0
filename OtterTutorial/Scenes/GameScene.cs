@@ -45,7 +45,7 @@ namespace OtterTutorial.Scenes
             if (Global.gameMusic == null)
             {
                 Global.gameMusic = new Music(Assets.MUSIC_GAME);
-                Global.gameMusic.Play();
+              //  Global.gameMusic.Play();
                 Global.gameMusic.Volume = 0.40f;
             }
         }
