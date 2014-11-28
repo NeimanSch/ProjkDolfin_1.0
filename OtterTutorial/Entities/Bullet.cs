@@ -80,8 +80,8 @@ namespace OtterTutorial.Entities
                         Y += bulletSpeed;
                         //jb - udpated to make the bullets collide with solid map objectss
                         newY = Y - bulletSpeed;
-                        if (newY < 900)
-                        {
+                        //if (newY < 900)
+                        //{
                             //jb - udpated to make the bullets collide with solid map objectss
                             newY = Y - bulletSpeed;
                             if (checkScene.grid.GetRect(X, newY, X + WIDTH, newY + HEIGHT, false))
@@ -89,7 +89,7 @@ namespace OtterTutorial.Entities
                                 Global.TUTORIAL.Scene.Add(new BulletExplosion(X, Y));
                                 RemoveSelf();
                             }
-                        }
+                        //}
 
                         break;
                     }

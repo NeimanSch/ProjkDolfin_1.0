@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OtterTutorial.Scenes;
+
 namespace OtterTutorial.Entities
 {
     public class Enemy : Entity
@@ -21,12 +23,15 @@ namespace OtterTutorial.Entities
 
         public Spritemap<string> sprite;
 
-        public const float MOVE_DISTANCE = 300;
+        public const float MOVE_DISTANCE = 900;
 
         // left = true, right = false
-        public bool direction = true;
+        public int direction = 0;
         // Used to keep track of the enemy distance moved
         public float distMoved = 0f;
+        
+        public float newX;
+        public float newY;
 
         public Sound hurt = new Sound(Assets.SND_ENEMY_HURT);
 
@@ -58,6 +63,8 @@ namespace OtterTutorial.Entities
         {
             base.Update();
 
+            GameScene checkScene = (GameScene)Scene;
+
             // Access the Enemy's Collider to check collision
             var collb = Collider.Collide(X, Y, (int)Global.Type.BULLET);
             if (collb != null)
@@ -84,23 +91,99 @@ namespace OtterTutorial.Entities
             }
 
             // If going left, flip the spritesheet
-            sprite.FlippedX = direction;
-
-            // if moving left then go left, otherwise go right
-            if (direction)
+            if (direction < 2)
             {
-                X -= speed;
+                sprite.FlippedX = false;
             }
             else
             {
+                sprite.FlippedX = true;
+            }
+
+            // if moving left then go left, otherwise go right
+            if (direction == 0)
+            {
+                X -= speed;
+
+                newX = X - speed;
+
+                if (checkScene.grid.GetRect(newX, Y, newX + sprite.Width, Y + sprite.Height, false))
+                {
+                    if (direction == 3)
+                    {
+                        direction = 0;
+                    }
+                    else
+                    {
+                        direction = direction + 1;
+                    }
+                }
+            }
+            else if(direction == 1)
+            {
+                Y += speed;
+
+                if (checkScene.grid.GetRect(newX, Y, newX + sprite.Width, Y + sprite.Height, false))
+                {
+                    if (direction == 3)
+                    {
+                        direction = 0;
+                    }
+                    else
+                    {
+                        direction = direction + 1;
+                    }
+                }
+            }
+            else if (direction == 2)
+            {
                 X += speed;
+
+                newX = X + speed;
+
+                if (checkScene.grid.GetRect(newX, Y, newX + sprite.Width, Y + sprite.Height, false))
+                {
+                    if (direction == 3)
+                    {
+                        direction = 0;
+                    }
+                    else
+                    {
+                        direction = direction + 1;
+                    }
+                }
+            }
+            else if (direction == 3)
+            {
+                Y -= speed;
+
+               
+                if (checkScene.grid.GetRect(newX, Y, newX + sprite.Width, Y + sprite.Height, false))
+                {
+                    if (direction == 3)
+                    {
+                        direction = 0;
+                    }
+                    else
+                    {
+                        direction = direction + 1;
+                    }
+                }
+
             }
 
             // Update distance moved, and check if we should flip directions
             distMoved += speed;
             if (distMoved >= MOVE_DISTANCE)
             {
-                direction = !direction;
+                if (direction == 3)
+                {
+                    direction = 0;
+                }
+                else
+                {
+                    direction = direction + 1;
+                } 
                 distMoved = 0f;
             }
         }

@@ -11,10 +11,10 @@ namespace OtterTutorial.Entities
     {
         public const int WIDTH = 32;
         public const int HEIGHT = 40;
-        public const float DIAGONAL_SPEED = 2.4f;
+        public const float DIAGONAL_SPEED = 3.4f;
 
         public float moveSpeed = 4.0f;
-        public float diagonalSpeed = 4.0f * .7f;
+        public float diagonalSpeed = .7f;
 
         // Our entity's graphic will be a Spritemap
         public Spritemap<string> sprite;
@@ -204,8 +204,8 @@ namespace OtterTutorial.Entities
 
                 if (verticalMovement && horizontalMovement)
                 {
-                    X += xSpeed / DIAGONAL_SPEED;
-                    Y += ySpeed / DIAGONAL_SPEED;
+                    X += xSpeed * diagonalSpeed;
+                    Y += ySpeed * diagonalSpeed;
                 }
                 else
                 {
